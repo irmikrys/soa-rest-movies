@@ -21,6 +21,10 @@ public class DataBase {
         return movies;
     }
 
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+    }
+
     public Optional<Movie> getMovie(int id) {
         return movies
                 .stream()

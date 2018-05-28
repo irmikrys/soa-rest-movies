@@ -5,6 +5,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,8 +83,19 @@ public class MoviesManager {
         }
         return Response.status(Response.Status.NO_CONTENT).build();
     }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/movies")
+    public Response collectionChange(List<MovieDTO> movieDTOS) {
+        List<Movie> movies = new ArrayList<>();
+        movieDTOS
+                .forEach(movie -> movies.add(new Movie(movie.getTitle())));
+        moviesDB.setMovies(movies);
+        return Response.ok().build();
+    }
 }
 
 //d) - lista filmow jako text/plain --> HTTP/1.1 406 Not Acceptable
-//   - aktualizacja calej kolekcji --> ??
+//   - aktualizacja calej kolekcji --> 200
 //   - przekierowanie --> HTTP 301 Moved Permanently lub 307 Moved Temporary (.temporaryRedirect(url))
